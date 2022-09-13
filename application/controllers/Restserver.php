@@ -74,7 +74,20 @@ class Restserver extends REST_Controller
 		$this->response($respuesta, REST_Controller::HTTP_OK);
 	}
 
+	function modificar_put()
+	{
 
+		$id = $this->uri->segment(3);
+		$data = $this->put();
+		$respuesta  = array(
+						'error' =>false,
+						'mensaje' => 'Correcto, información',
+						'id'  => $id,
+						'data'  => $data
+					  );
+		//devolvemos respuesta
+		$this->response($respuesta, REST_Controller::HTTP_OK);
+	}
 
 
 }
