@@ -54,7 +54,24 @@ class Restserver extends REST_Controller
 					  );
 		//devolvemos respuesta
 		$this->response($respuesta, REST_Controller::HTTP_OK);
+	}
 
+	function datos_get()
+	{
+
+		//http://localhost/sextosemestre/index.php/Restserver/datos/DIEGO/DAZA 
+		$nombre = $this->uri->segment(3);
+		$apellido = $this->uri->segment(4);
+		$edad = $this->uri->segment(5);
+		$respuesta  = array(
+						'error' =>false,
+						'mensaje' => 'Correcto, información',
+						'nombre'  => $nombre,
+						'apellido'  => $apellido,
+						'edad'  => $edad,
+					  );
+		//devolvemos respuesta
+		$this->response($respuesta, REST_Controller::HTTP_OK);
 	}
 
 
