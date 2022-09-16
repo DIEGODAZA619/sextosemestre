@@ -5,7 +5,8 @@ class Login extends REST_Controller
 {
 	public function __construct()
 	{
-		parent::__construct();		
+		parent::__construct();
+		$this->load->model('usuarios_model');	
 	}
 
 	public function index_post()
@@ -15,15 +16,31 @@ class Login extends REST_Controller
 		if (array_key_exists('username', $data) && array_key_exists('clave', $data))
 		{
 			$username = $this->post("username");
-			$clave    = $this->post("clave");
-			$respuesta = array(
+			$clave    = md5($this->post("clave"));
+
+			$login = $this->usuarios_model->verificar_login($username,$clave);
+
+			if($login)
+			{
+				$respuesta = array(
 						'error' 	=> false,
 						'mensaje' 	=> "BIENVENIDO AL SISTEMA",
 						'username' 	=> $username,
 						'clave'		=> $clave,
-						'data'		=> $data
-			);
-			$this->response($respuesta, REST_Controller::HTTP_OK);	
+						'data'		=> $data,
+						'login'		=> $login,
+				);
+				$this->response($respuesta, REST_Controller::HTTP_OK);	
+			}
+			else
+			{
+				$respuesta = array(
+								'error' => true,
+								'mensaje' => "Datos no existentes"
+								);
+				$this->response($respuesta, REST_Controller::HTTP_BAD_REQUEST);
+			}
+			
 		}
 		else
 		{
