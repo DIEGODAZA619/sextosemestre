@@ -83,24 +83,25 @@ class Usuarios extends REST_Controller
 					//echo json_encode($data);		
 					$this->load->library('form_validation');
 					$this->form_validation->set_data($data);
-					$this->form_validation->set_rules('nombres','nombres','required'); //aplicando reglas de validacion
+					//$this->form_validation->set_rules('nombres','nombres','required'); //aplicando reglas de validacion
 
-					if($this->form_validation->run() == FALSE)
-					{
-						$respuesta = array(
-										'error' 	=> true,
-										'mensaje' 	=> "DATOS INCORRECTOS",
-										'errores'	=> $this->form_validation->get_errores_arreglo()
-						);						
-					}
-					else
+					if($this->form_validation->run('usuarios_post'))
 					{
 						$respuesta = array(
 										'error' 	=> false,
 										'mensaje' 	=> "DATOS OBTENIDOS",
 										'data'		=> $data,
-										'iduser'	=> $iduser,
-								);						
+										'iduser'	=> $iduser
+									);					
+					}
+					else
+					{
+						$respuesta = array(
+										'error' 	=> true,
+										'mensaje' 	=> "DATOS INCORRECTOS",
+										'errores'	=> $this->form_validation->get_errores_arreglo()
+						);
+														
 					}
 					$this->response($respuesta, REST_Controller::HTTP_OK);
 
