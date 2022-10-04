@@ -57,11 +57,12 @@ class Usuarios extends REST_Controller
 	{
 		try  //MANEJO DE EXCEPCIONES
 		{
-			$received_Token = $this->input->request_headers('Authorization');//  recuperamos el token
+			/*$received_Token = $this->input->request_headers('Authorization');//  recuperamos el token
 			if(array_key_exists('Authorization', $received_Token)) //VERIFICAMOS EL PARAMETRO DE AUTHORIZATION
 			{
 				$jwtData = $this->objOfJwt->DecodeToken($received_Token['Authorization']);
-				$iduser  = $jwtData['idusuario'];				
+				$iduser  = $jwtData['idusuario'];*/
+				$iduser  = 1;				
 				//Área de trabajo
 				
 				$data = $this->post();
@@ -109,7 +110,7 @@ class Usuarios extends REST_Controller
 						
 				}
 				
-			}
+			/*}
 			else
 			{
 				$respuesta = array(
@@ -117,13 +118,13 @@ class Usuarios extends REST_Controller
 									'mensaje' 	=> "ACCESO DENEGADO",								
 							);
 				$this->response($respuesta, REST_Controller::HTTP_NOT_FOUND);		
-			}
+			}*/
 		} 
 		catch (Exception $e) 
 		{
 			$respuesta = array(
 									'error' 	=> true,
-									'mensaje' 	=> "ACCESO DENEGADO",
+									'mensaje' 	=> "ACCESO DENEGADO EXCEPCION",
 									"message"   => $e->getMessage()								
 							);
 			$this->response($respuesta, REST_Controller::HTTP_NOT_FOUND);		
