@@ -53,6 +53,20 @@ class Usuarios extends REST_Controller
 		}
 	}
 
+	public function verificarcadena_check($cadena)
+	{
+		$patron =  "/^[a-zA-Z\sñáéíóúÁÉÍÓÚ]+$/"; //EXPRESION REGULAR
+		if(preg_match($patron, $cadena)) //verificamos el texto de la expresion regular con la cadena
+		{
+			return true;
+		}
+		else
+		{
+			$this->form_validation->set_message('verificarcadena_check', 'El campo {field} solo debe contener letras');
+			return false;
+		}
+
+	}
 	function registrar_post()
 	{
 		try  //MANEJO DE EXCEPCIONES
