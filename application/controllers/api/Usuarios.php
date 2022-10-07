@@ -79,7 +79,7 @@ class Usuarios extends REST_Controller
 			return false;
 		}
 	}
-	
+
 	function registrar_post()
 	{
 		try  //MANEJO DE EXCEPCIONES
@@ -115,12 +115,8 @@ class Usuarios extends REST_Controller
 
 					if($this->form_validation->run('usuarios_post'))
 					{
-						$respuesta = array(
-										'error' 	=> false,
-										'mensaje' 	=> "DATOS OBTENIDOS",
-										'data'		=> $data,
-										'iduser'	=> $iduser
-									);					
+						$respuesta = $this->registrarusuario($data);
+						/**/					
 					}
 					else
 					{
@@ -132,9 +128,6 @@ class Usuarios extends REST_Controller
 														
 					}
 					$this->response($respuesta, REST_Controller::HTTP_OK);
-
-
-						
 				}
 				
 			/*}
@@ -159,7 +152,49 @@ class Usuarios extends REST_Controller
 	}
 	
 
+	function registrarusuario($data)
+	{
+		$nrodocumento = trim($data['nrodocumento']);
+		$nombres           = trim(strtoupper($data['nombres']));
+		$primer_apellido   = trim(strtoupper($data['primer_apellido']));
+		$segundo_apellido  = trim(strtoupper($data['segundo_apellido']));
+		$tipo_usuario      = trim($data['tipo_usuario']);
+		$clave 			   = trim($data['clave']);
 
 
+		$datap = array(
+			'numero_doc'      => $nrodocumento,
+			'nombres'         => $nombres,
+			'primer_apellido' => $primer_apellido,
+			'segundo_apellido'=> $segundo_apellido,
+			'estado'          => 'AC',
+		);
+		$id_persona = $this->usuarios_model->guardarPersona($datap);
+
+		//alvaro diego.daza
+		$nombres_user = str_replace(" ","",$nombres);
+		$apellido_user = str_replace(" ","",$primer_apellido);		
+		$username = $nombres_user.".".$apellido_user;
+		$clavemd5 = md5($clave);
+		
+		$datau = array(
+			'id_persona'    => $id_persona,
+			'tipo_usuario'  => $tipo_usuario,
+			'username' 		=> $username,
+			'clave'         => $clavemd5,
+			'estado'        => 'AC',
+		);
+		$id_usuario = $this->usuarios_model->guardarUsuario($datau);
+
+
+
+		$respuesta = array(
+			'error' 	=> false,
+			'mensaje' 	=> "GUARDADO CORRECTAMENTE",
+			'id_persona'		=> $id_persona,
+			'id_usuario' => $id_usuario			
+		);
+		return $respuesta;
+	}
 }
 ?>
