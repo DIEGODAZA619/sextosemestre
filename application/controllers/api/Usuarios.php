@@ -67,6 +67,19 @@ class Usuarios extends REST_Controller
 		}
 
 	}
+	function verificarusuario_ckeck($tipo)
+	{
+		if($tipo == 1 || $tipo == 2)
+		{
+			return true;
+		}
+		else
+		{
+			$this->form_validation->set_message('verificarusuario_ckeck', 'El valor del campo {field} no es correcto');
+			return false;
+		}
+	}
+	
 	function registrar_post()
 	{
 		try  //MANEJO DE EXCEPCIONES
