@@ -47,5 +47,10 @@ class Usuarios_model extends CI_Model
 		$this->db_proyecto->insert('usuarios',$data);
 		return $this->db_proyecto->insert_id();
 	}
+	function updatePersona($id_persona,$datap)
+	{
+		$this->db_proyecto->where('id', $id_persona);
+		return $this->db_proyecto->update('personas', $datap);
+	}
 }
 ?>

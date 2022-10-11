@@ -25,6 +25,28 @@ $config = array(
 			  'label' => 'clave',
 			  'rules' => 'trim|required|min_length[6]|max_length[20]|alpha_numeric'),
 		
+	),
+	'usuarios_modificar_post'=> array(
+		array('field' => 'nrodocumento',
+			  'label' => 'nrodocumento',
+			  'rules' => 'trim|required|numeric|min_length[3]|max_length[9]'),
+
+		array('field' => 'nombres',
+			  'label' => 'nombres',
+			  'rules' => 'trim|required|min_length[3]|max_length[20]|callback_verificarcadena_check'),
+
+		array('field' => 'primer_apellido',
+			  'label' => 'primer_apellido',
+			  'rules' => 'trim|required|min_length[3]|max_length[20]|callback_verificarcadena_check'),
+
+		array('field' => 'segundo_apellido',
+			  'label' => 'segundo_apellido',
+			  'rules' => 'trim|required|min_length[3]|max_length[20]|callback_verificarcadena_check'),
+		
+		array('field' => 'idpersona',
+			  'label' => 'idpersona',
+			  'rules' => 'trim|required|numeric'),
+		
 	)
 	
 );
