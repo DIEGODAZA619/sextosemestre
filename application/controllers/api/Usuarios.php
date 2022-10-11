@@ -196,5 +196,59 @@ class Usuarios extends REST_Controller
 		);
 		return $respuesta;
 	}
+
+
+	function getlistausuariosId_get()
+	{		
+		try  //MANEJO DE EXCEPCIONES
+		{
+			/*$received_Token = $this->input->request_headers('Authorization');//  recuperamos el token
+			if(array_key_exists('Authorization', $received_Token)) //VERIFICAMOS EL PARAMETRO DE AUTHORIZATION
+			{*/
+				/*$jwtData = $this->objOfJwt->DecodeToken($received_Token['Authorization']);
+				$iduser  = $jwtData['idusuario'];*/
+
+				$idUsuario = $this->uri->segment(4);
+				
+				if($idUsuario > 0)
+				{
+					$data = $this->usuarios_model->getUsuariosId($idUsuario);
+					//echo json_encode($data);		
+					$respuesta = array(
+										'error' 	=> false,
+										'mensaje' 	=> "DATOS OBTENIDOS",
+										'data'		=> $data,										
+								);
+					$this->response($respuesta, REST_Controller::HTTP_OK);	
+				}
+				else
+				{
+					$respuesta = array(
+										'error' 	=> false,
+										'mensaje' 	=> "DEBE ENVIAR LOS PARAMETROS CORRECTOS",										
+								);
+					$this->response($respuesta, REST_Controller::HTTP_NOT_FOUND);	
+				}	
+				
+			/*}
+			else
+			{
+				$respuesta = array(
+									'error' 	=> true,
+									'mensaje' 	=> "ACCESO DENEGADO",								
+							);
+				$this->response($respuesta, REST_Controller::HTTP_NOT_FOUND);		
+			}*/
+		} 
+		catch (Exception $e) 
+		{
+			$respuesta = array(
+									'error' 	=> true,
+									'mensaje' 	=> "ACCESO DENEGADO",
+									"message"   => $e->getMessage()								
+							);
+			$this->response($respuesta, REST_Controller::HTTP_NOT_FOUND);		
+		}
+	}
 }
 ?>

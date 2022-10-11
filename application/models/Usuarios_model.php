@@ -26,6 +26,15 @@ class Usuarios_model extends CI_Model
 											);
 		return $query->result();
 	}
+	function getUsuariosId($idUsuario)
+	{
+		$query = $this->db_proyecto->query("select *
+			                                  from personas p, usuarios u
+			                                 where p.id = u.id_persona
+			                                   and p.id = ".$idUsuario
+											);
+		return $query->result();
+	}
 
 	function guardarPersona($data)
 	{
