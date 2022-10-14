@@ -351,5 +351,125 @@ class Usuarios extends REST_Controller
 		}
 		return $respuesta;
 	}
+
+	function cambiarClave_post()
+	{
+
+		try  //MANEJO DE EXCEPCIONES
+		{
+			$received_Token = $this->input->request_headers('Authorization');//  recuperamos el token
+			if(array_key_exists('Authorization', $received_Token)) //VERIFICAMOS EL PARAMETRO DE AUTHORIZATION
+			{
+				$jwtData = $this->objOfJwt->DecodeToken($received_Token['Authorization']);
+				$iduser  = $jwtData['idusuario'];
+
+
+				$iduser  = 1;				
+				//Área de trabajo
+				
+				$data = $this->post();
+				if(!(array_key_exists('claveactual',$data)
+					&& array_key_exists('clavenueva',$data)
+					&& array_key_exists('confirmacion',$data)))
+				{
+					$respuesta = array(
+								'error' => true,
+								'mensaje' => "Debe introducir los parámetros correctos"
+								);
+					$this->response($respuesta, REST_Controller::HTTP_BAD_REQUEST);
+				}
+				else
+				{
+					//echo json_encode($data);		
+					$this->load->library('form_validation');
+					$this->form_validation->set_data($data);
+					//$this->form_validation->set_rules('nombres','nombres','required'); //aplicando reglas de validacion
+
+					if($this->form_validation->run('cambiarclave_post'))
+					{
+						$respuesta = $this->actulizarclaveusuario($iduser,$data);
+						/**/					
+					}
+					else
+					{
+						$respuesta = array(
+										'error' 	=> true,
+										'mensaje' 	=> "DATOS INCORRECTOS",
+										'errores'	=> $this->form_validation->get_errores_arreglo()
+						);														
+					}
+					$this->response($respuesta, REST_Controller::HTTP_OK);
+				}				
+			}
+			else
+			{
+				$respuesta = array(
+									'error' 	=> true,
+									'mensaje' 	=> "ACCESO DENEGADO",								
+							);
+				$this->response($respuesta, REST_Controller::HTTP_NOT_FOUND);		
+			}
+		} 
+		catch (Exception $e) 
+		{
+			$respuesta = array(
+									'error' 	=> true,
+									'mensaje' 	=> "ACCESO DENEGADO EXCEPCION",
+									"message"   => $e->getMessage()								
+							);
+			$this->response($respuesta, REST_Controller::HTTP_NOT_FOUND);		
+		}
+	}
+
+	function actulizarclaveusuario($iduser,$data)
+	{
+		$claveactual = md5(trim($data['claveactual']));
+		$clavenueva = md5(trim($data['clavenueva']));
+		$confirmacion = md5(trim($data['confirmacion']));
+
+		if($clavenueva == $confirmacion)
+		{
+			if($claveactual != $clavenueva)
+			{
+				if($this->usuarios_model->getVerificacionClaveUsuario($iduser,$claveactual))
+				{
+					$datau = array(
+						'clave' => $clavenueva,						
+					);
+
+					$id_usuario = $this->usuarios_model->updateUsuario($iduser,$datau);
+
+					$respuesta = array(
+						'error' 	=> false,
+						'mensaje' 	=> "CLAVE ACTUALIZADA CORRECTAMENTE, INICIE SESSION CON LAS NUEVAS CREDENCIALES"
+					);		
+				}
+				else
+				{
+					$respuesta = array(
+					'error' 	=> true,
+					'mensaje' 	=> "Error, La contrasenha actual no es correcta"
+					);	
+				}
+			}
+			else
+			{
+				$respuesta = array(
+				'error' 	=> true,
+				'mensaje' 	=> "Error, La nueva contrasenha no debe ser igual a la actual"
+				);	
+			}
+		}
+		else
+		{
+			$respuesta = array(
+			'error' 	=> true,
+			'mensaje' 	=> "Error, No coinciden la nueva contrasenha con la confirmacion"
+			);		
+		}
+		return $respuesta;
+
+	}
+
 }
 ?>

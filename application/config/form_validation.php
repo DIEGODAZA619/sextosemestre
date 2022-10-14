@@ -47,6 +47,19 @@ $config = array(
 			  'label' => 'idpersona',
 			  'rules' => 'trim|required|numeric'),
 		
+	),
+	'cambiarclave_post'=> array(
+		array('field' => 'claveactual',
+			  'label' => 'claveactual',
+			  'rules' => 'trim|required|alpha_numeric|min_length[6]|max_length[20]'),
+
+		array('field' => 'clavenueva',
+			  'label' => 'clavenueva',
+			  'rules' => 'trim|required|alpha_numeric|min_length[6]|max_length[20]'),
+
+		array('field' => 'confirmacion',
+			  'label' => 'confirmacion',
+			  'rules' => 'trim|required|alpha_numeric|min_length[6]|max_length[20]'),
 	)
 	
 );

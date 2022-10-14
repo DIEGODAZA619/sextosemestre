@@ -35,6 +35,14 @@ class Usuarios_model extends CI_Model
 											);
 		return $query->result();
 	}
+	function getVerificacionClaveUsuario($idUsuario, $clave)
+	{
+		$query = $this->db_proyecto->query("select *
+			                                  from usuarios u
+			                                 where u.id = ".$idUsuario."
+			                                   and u.clave = '".$clave."'");
+		return $query->result();
+	}
 
 	function guardarPersona($data)
 	{
@@ -51,6 +59,11 @@ class Usuarios_model extends CI_Model
 	{
 		$this->db_proyecto->where('id', $id_persona);
 		return $this->db_proyecto->update('personas', $datap);
+	}
+	function updateUsuario($iduser,$datau)
+	{
+		$this->db_proyecto->where('id', $iduser);
+		return $this->db_proyecto->update('usuarios', $datau);
 	}
 }
 ?>
