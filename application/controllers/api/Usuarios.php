@@ -448,6 +448,8 @@ class Usuarios extends REST_Controller
 				{
 					$respuesta = array(
 					'error' 	=> true,
+					'idusuario' => $idusuario,
+					'clave' => $claveactual,
 					'mensaje' 	=> "Error, La contrasenha actual no es correcta"
 					);	
 				}
