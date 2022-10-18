@@ -60,6 +60,24 @@ $config = array(
 		array('field' => 'confirmacion',
 			  'label' => 'confirmacion',
 			  'rules' => 'trim|required|alpha_numeric|min_length[6]|max_length[20]'),
+	),
+	
+	'propietarios_post'=> array(
+		array('field' => 'documento',
+			  'label' => 'documento',
+			  'rules' => 'trim|required|numeric|min_length[3]|max_length[9]'),
+
+		array('field' => 'nombres',
+			  'label' => 'nombres',
+			  'rules' => 'trim|required|min_length[3]|max_length[100]|callback_verificarcadena_check'),
+
+		array('field' => 'telefono',
+			  'label' => 'telefono',
+			  'rules' => 'trim|required|numeric|min_length[3]|max_length[8]'),
+
+		array('field' => 'direccion',
+			  'label' => 'direccion',
+			  'rules' => 'trim|required|min_length[3]|max_length[100]|callback_verificarcadena_check'),
 	)
 	
 );
