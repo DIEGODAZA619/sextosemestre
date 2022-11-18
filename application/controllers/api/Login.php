@@ -52,7 +52,7 @@ class Login extends REST_Controller
 								'error' => true,
 								'mensaje' => "El usuario no se encuentra habilitado"
 								);
-				$this->response($respuesta, REST_Controller::HTTP_BAD_REQUEST);
+				$this->response($respuesta, REST_Controller::HTTP_OK);
 				}
 			}
 			else
@@ -61,7 +61,7 @@ class Login extends REST_Controller
 								'error' => true,
 								'mensaje' => "Datos no existentes"
 								);
-				$this->response($respuesta, REST_Controller::HTTP_BAD_REQUEST);
+				$this->response($respuesta, REST_Controller::HTTP_OK);
 			}
 			
 		}
@@ -71,7 +71,7 @@ class Login extends REST_Controller
 								'error' => true,
 								'mensaje' => "Debe introducir los parámetros correctos"
 								);
-			$this->response($respuesta, REST_Controller::HTTP_BAD_REQUEST);
+			$this->response($respuesta, REST_Controller::HTTP_OK);
 		}
 		
 
