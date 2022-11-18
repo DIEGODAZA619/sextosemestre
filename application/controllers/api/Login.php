@@ -37,7 +37,7 @@ class Login extends REST_Controller
 
 					$respuesta = array(
 							'error' 	=> false,
-							'mensaje' 	=> "BIENVENIDO AL SISTEMA",
+							'mensaje' 	=> "BIENVENIDO AL SISTEMAXXX",
 							'username' 	=> $username,
 							'clave'		=> $clave,
 							'data'		=> $data,
@@ -73,6 +73,21 @@ class Login extends REST_Controller
 								);
 			$this->response($respuesta, REST_Controller::HTTP_OK);
 		}
+		
+
+	}
+
+	public function cerrarSession_get()
+	{
+		$jwtToken				= "IN VALID";//$this->objOfJwt->GenerateToken($tokenData); // GENERA EL TOKEM
+
+		$respuesta = array(
+				'error' 	=> false,
+				'mensaje' 	=> "CERRANDO SESSION",				
+				'token'		=> $jwtToken
+		);
+		$this->response($respuesta, REST_Controller::HTTP_OK);	
+		
 		
 
 	}
